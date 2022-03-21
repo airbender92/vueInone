@@ -6,7 +6,7 @@ module.exports = {
     path: path.resolve(__dirname, './../dist'),
     filename: 'bundle.js',
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -21,6 +21,7 @@ module.exports = {
 }
 
 // ==========================注释===============================
+// https://www.edc4it.com/blog/webpack-tutorial#article
 /**
  * @params entry - [String]
  * @description Requests that should resolve in the current directory need to start with './'.
