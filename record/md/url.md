@@ -1,0 +1,1 @@
+[!TS __awaiter](https://stackoverflow.com/questions/47995484/whats-the-purpose-of-typescripts-awaiter)

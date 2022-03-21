@@ -14,3 +14,11 @@
     }
   }
   ```
+
+  ## Autoprefixer
+  - 解析css， 添加厂商前缀
+
+  ### 0、Browserslist
+  
+  ### 一、Browsers
+  Autoprefixer uses Browserslist
