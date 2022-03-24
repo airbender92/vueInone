@@ -1,6 +1,7 @@
-import styles from './file.css';
+import './file.css';
+import './file2.css';
 
 const divElement = document.createElement("div");
-divElement.className = styles['container'];
-document.write("hello friend");
-document.append(divElement)
+divElement.className = ['container']
+divElement.innerHTML = 'hello css-loader';
+document.body.appendChild(divElement)
