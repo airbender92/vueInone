@@ -1,19 +1,39 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+
+
+const baseConfig = require('./webpack.base.conf')
 const devMode = process.env.NODE_ENV !== "production";
 
 
 console.log('__dirname', path.resolve(__dirname)) // D:\study\vueInone\record\build
 
+// ==============merge===============
+const obj1 = {
+  name: 'testA',
+  age: 11
+};
+const obj2 = {
+  name: 'testB',
+  callback() {
+    return null
+  }
+}
+const mergedObj = merge(obj1, obj2);
+console.log('mergedObj: ', mergedObj);
+// ==============end merge===============
 
-module.exports = {
+const devExampleConfig = {
   entry: ["./example/css-loader-example/file.js", "./example/css-loader-example/index.js"],
   output: {
     path: path.resolve(__dirname, './../dist'),
-    filename: 'bundle.js',
+    filename: '[name].[hash:8].js',
+    sourceMapFilename: '[name].[hash:8].map',
+    chunkFilename: '[id].[hash:8].js'
   },
   mode: 'development',
 
@@ -23,7 +43,8 @@ module.exports = {
       template: './example/index.html',
       publicPath: './',
       favicon: './example/css-loader-example/assets/img/favicon.svg'
-    })
+    }),
+  
   ].concat(devMode ? [] : [new MiniCssExtractPlugin({
     filename: "[name].css",
     chunkFilename: "[id].css"
@@ -67,8 +88,10 @@ module.exports = {
   optimization: {
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
   },
-  // devtool: 'eval-source-map'
+  devtool: 'eval-source-map'
 }
+
+module.exports = merge(baseConfig, devExampleConfig)
 
 // ==========================注释===============================
 // https://www.edc4it.com/blog/webpack-tutorial#article
