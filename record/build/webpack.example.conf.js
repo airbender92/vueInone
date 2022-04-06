@@ -53,7 +53,7 @@ const devExampleConfig = {
   module: {
     rules: [
       {
-        test: /\.(sa|sc|c)ss$/i,
+        test: /\.(le|c)ss$/i,
         use: [
           devMode
             ? { loader: "style-loader", options: { attributes: { id: 'id' } } }
@@ -79,8 +79,14 @@ const devExampleConfig = {
                 // localIdentName: "foo_[name]_[local]" // 给在js文件中的css类名统一添加前缀foo_js文件名_原名
               // }
             }
+          },
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true
             }
-          
+          }
         ]
       }
     ]

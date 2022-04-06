@@ -1,5 +1,6 @@
 import './file.css';
 import './file2.css';
+import './index.less';
 
 const divElement = document.createElement("div");
 divElement.className = ['container']
