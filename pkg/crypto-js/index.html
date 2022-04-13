@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+</head>
+<body>
+  <script>
+    var hash = CryptoJS.MD5("Message");
+    var hash1 = CryptoJS.SHA1("Message");
+    var hash2 = CryptoJS.SHA256("Message");
+    var hash5 = CryptoJS.SHA512("Message");
+    var hash3512 = CryptoJS.SHA3("Message", { outputLength: 512 }); 
+    var hash3384 = CryptoJS.SHA3("Message", { outputLength: 384 });
+    console.log('type: ', typeof hash)
+    console.log('hash: ', hash);
+    console.log('hash1: ', hash1);
+    console.log('hash2: ', hash2);
+    console.log('hash5: ', hash5);
+    console.log('hash3512: ', hash3512);
+    console.log('hash3384: ', hash3384);
+    console.log('outputToBase64: ', hash2.toString(CryptoJS.enc.Base64))
+    console.log('outputToHex: ', hash2.toString(CryptoJS.enc.Hex))
+
+    var encrypted = CryptoJS.AES.encrypt("Message", "Secret Passphrase");
+    var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase").toString(CryptoJS.enc.Utf8)
+    console.log('encrypted', encrypted)
+    console.log('decrypted', decrypted)
+  </script>
+</body>
+</html>
