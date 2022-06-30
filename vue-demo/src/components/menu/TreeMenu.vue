@@ -2,7 +2,7 @@
  * @Author: wangyunbo
  * @Date: 2022-06-28 09:43:39
  * @LastEditors: wangyunbo
- * @LastEditTime: 2022-06-28 10:31:30
+ * @LastEditTime: 2022-06-28 10:38:00
  * @FilePath: \vueInone\vue-demo\src\components\menu\TreeMenu.vue
  * @Description: file content
 -->
@@ -48,6 +48,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style  scoped>
+.tree-menu{
+  position: relative;
+}
 </style>
