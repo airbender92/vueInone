@@ -2,65 +2,82 @@
  * @Author: wangyunbo
  * @Date: 2022-06-28 10:52:30
  * @LastEditors: wangyunbo
- * @LastEditTime: 2022-06-28 16:21:37
+ * @LastEditTime: 2022-07-12 11:08:17
  * @FilePath: \vueInone\vue-demo\src\components\SvgIcon.vue
  * @Description: file content
 -->
 <template>
-  <div v-html="require(`!html-loader!../assets/svg/${icon}.svg`)" class="svg-container"></div>
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
+  <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
+    <use :xlink:href="iconName" />
+  </svg>
 </template>
 
 <script>
-
-function recursivelyRemoveFill(el) {
-  if (!el) {
-    return
-  }
-  el.removeAttribute('fill');
-  [].forEach.call(el.children, child => {
-    recursivelyRemoveFill(child)
-  })
-}
-
-export default {
-  name: 'svg-icon',
+import { defineComponent, computed, toRefs } from 'vue'
+// doc: https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage
+import { isExternal as isExternalUtil } from '@/utils/validate'
+export default defineComponent({
+  name: 'SvgIcon',
   props: {
-    icon: {
+    iconClass: {
       type: String,
-      default: null
+      required: true
     },
-    hasFill: {
-      type: Boolean,
-      default: false
-    },
-    growByHeight: {
-      type: Boolean,
-      default: true
+    className: {
+      type: String,
+      default: ''
     }
   },
-  mounted() {
-    if (this.$el.firstElementChild.nodeName === 'svg') {
-      const svgElement = this.$el.firstElementChild;
-      const viewBox = svgElement.getAttribute('viewBox').split(' ').map(n => Number(n));
-      const widthToHeight = (viewBox[2] / viewBox[3]).toFixed(2);
-      if (this.hasFill) {
-        recursivelyRemoveFill(svgElement);
+  setup(props, ctx) {
+
+    const { className, iconClass } = toRefs(props);
+
+    const isExternal = computed(() => {
+      return isExternalUtil(iconClass)
+    })
+
+    const iconName = computed(() => {
+      return `#icon-${iconClass}`
+    })
+
+    const svgClass = computed(() => {
+      if (className) {
+        return 'svg-icon ' + className
       }
-      if (this.growByHeight) {
-        svgElement.setAttribute('height', '1em');
-        svgElement.setAttribute('width', `${widthToHeight}em`);
-      } else {
-        svgElement.setAttribute('width', '1em');
-        svgElement.setAttribute('height', `${1 / widthToHeight}em`)
+      return 'svg-icon'
+    })
+
+    const styleExternalIcon = computed(() => {
+      return {
+        mask: `url(${iconClass}) no-repeat 50% 50%`,
+        '-webkit-mask': `url(${iconClass}) no-repeat 50% 50%`,
       }
-      svgElement.classList.add('svg-class')
+    })
+
+
+    return {
+      isExternal,
+      iconName,
+      svgClass,
+      styleExternalIcon
     }
   }
-}
+})
 </script>
 
-<style lang="scss" scoped>
-.svg-container {
-  display: inline-flex;
+<style scoped>
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.svg-external-icon {
+  background-color: currentColor;
+  mask-size: cover!important;
+  display: inline-block;
 }
 </style>
