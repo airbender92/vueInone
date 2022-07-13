@@ -1,0 +1,402 @@
+/*
+nesting
+Keep those selectors shallow
+The deeper you nest,the more bandwidth it takes to serve your CSS and the more work it takes the browser to render it
+*/
+nav {
+  url{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li { display: inline-block; }
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
+}
+
+/* Selector Combinators */
+url > {
+  li {
+    list-style-type:none;
+  }
+}
+
+h2 {
+  + p {
+    border-top: 1px solid gray;
+  }
+}
+
+p {
+  ~ {
+    span {
+      opacity: 0.8;
+    }
+  }
+}
+
+/* Interpolation */
+@mixin define-emoji($name, $glyph) {
+  span.emoji-#{$name} {
+    font-family: IconFont;
+    font-variant: normal;
+    font-weight: normal;
+    content: $glyph;
+  }
+}
+@include define-emoji('women-holding-hands', "👭" );
+
+/**Property Declarations*/
+.circle {
+  $size: 100px;
+  width: $size;
+  height: $size;
+  border-radius: $size * 0.5;
+}
+
+@mixin prefix($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    -#{$prefix}-#{$property}: $value;
+  }
+  #{$property}: $value;
+}
+
+.gray {
+  @include prefix(filter, grayscale(50%), moz webkit )
+}
+
+/*Nesting*/
+.enlarge {
+  font-size: 14px;
+  /*
+  Many CSS properties start with the same prefix that acts as a kind of namespace. For example,
+    font-family,
+    font-size,
+    and font-weight all start with font-.
+     Sass makes this easier and less redundant by allowing property declarations to be nested. 
+     The outer property names are added to the inner,
+    separated by a hyphen
+    css: 
+    transition-property: font-size;
+    transition-duration: 4s;
+    transition-delay: 2s;
+  */
+  transition: {
+    property: font-size;
+    duration: 4s;
+    delay: 2s;
+  }
+  &:hover{ font-size: 36px}
+}
+
+/*
+css:
+.info-page {
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+*/
+.info-page {
+  margin: auto {
+    bottom: 10px;
+    top: 2px;
+  }
+}
+
+/*
+ If a declaration’s value is null or an empty unquoted string,
+ Sass won’t compile that declaration to CSS at all
+ css:
+ .button {
+   border: 1px solid black;
+ }
+*/
+$rounded-corners: false;
+
+.button {
+  border: 1px solid black;
+  border-radius: if($rounded-corners, 5px, null);
+}
+
+/*
+custom properties
+css:
+:root {
+  --primary: #81899b;
+  --accent: #302e24;
+  --warn: #dfa612;
+  --consumed-by-js: $primary;
+}
+*/
+$primary: #81899b;
+$accent: #302e24;
+$warn: #dfa612;
+
+:root {
+  --primary: #{$primary};
+  --accent: #{$accent};
+  --warn: #{$warn};
+
+  // Even though this looks like a Sass variable, it's valid CSS so it's not
+  // evaluated.
+  --consumed-by-js: $primary;
+}
+
+/*
+css:
+:root {
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas;
+}
+*/
+@use "sass:meta";
+
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas;
+
+:root {
+  --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)};
+  --font-family-monospace: #{meta.inspect($font-family-monospace)};
+}
+
+
+/*
+Parent Selector
+css:
+.alert:hover {
+  font-weight: bold;
+}
+
+[dir=rtl] .alert {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+:not(.alert) {
+  opacity: 0.8;
+}
+*/
+.alert {
+
+  // The parent selector can be used to add pseudo-classes to the outer
+  // selector.
+  &:hover {
+    font-weight: bold;
+  }
+
+  // It can also be used to style the outer selector in a certain context, such
+  // as a body set to use a right-to-left language.
+  [dir=rtl] & {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  // You can even use it as an argument to pseudo-class selectors.
+  :not(&) {
+    opacity: 0.8;
+  }
+}
+
+
+/*
+suppose you want to write a selector that matches the outer selector and an element selector. You could write a mixin like this one that uses the selector.unify() function to combine & with a user’s selector
+css:
+.wrapper input.field {
+  xxx
+}
+
+.wrapper select.field {
+  xxx
+}
+*/
+@use "sass:selector";
+
+@mixin unify-parent($child) {
+  @at-root #{selector.unify(&, $child)} {
+    @content;
+  }
+}
+
+.wrapper .field {
+  @include unify-parent("input") {
+    /* ... */
+  }
+
+  @include unify-parent("select") {
+    /* ... */
+  }
+}
+
+
+/*
+Placeholder Selectors
+it starts with a % and it's not included in the CSS output
+css:
+.alert:hover {
+  font-weight: bold;
+}
+*/
+.alert:hover,
+%strong-alert {
+  font-weight: bold;
+}
+
+%strong-alert:hover {
+  color: red;
+}
+
+/*
+% usage:
+css:
+.action-buttons,
+.reset-buttons {
+  box-sizing: border-box;
+  border-top: 1px rgba(0, 0, 0, 0.12) solid;
+  padding: 16px 0;
+  width: 100%;
+}
+
+.action-buttons:hover,
+.reset-buttons:hover {
+  border: 2px rgba(0, 0, 0, 0.5) solid;
+}
+
+.action-buttons {
+  color: #4285f4;
+}
+
+.reset-buttons {
+  color: #cddc39;
+}
+*/
+%toolbelt {
+  box-sizing: border-box;
+  border-top: 1px rgba(#000, .12) solid;
+  padding: 16px 0;
+  width: 100%;
+
+  &:hover {
+    border: 2px rgba(#000, .5) solid;
+  }
+}
+
+.action-buttons {
+  @extend %toolbelt;
+  color: #4285f4;
+}
+
+.reset-buttons {
+  @extend %toolbelt;
+  color: #cddc39;
+}
+
+
+/*variable
+css:
+code {
+  border-radius: 0.1rem;
+  box-shadow: 0 0.5rem 1rem rgba(34, 34, 34, 0.15);
+}
+*/
+// _library.scss
+$black: #000 !default;
+$border-radius: 0.25rem !default;
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
+
+code {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+}
+// style.scss
+@use 'library' with ($black: #222, $border-radius: 0.1rem);
+
+
+/*
+Built-in Variables
+Variables that are defined by a built-in module cannot be modified
+*/
+@use "sass:math" as math;
+
+// This assignment will fail.
+math.$pi: 0;
+
+
+/*
+global variable
+If you need to set a global variable’s value from within a local scope (such as in a mixin),
+you can use the !global flag. A variable declaration flagged as !global will always assign to the global scope.
+css:
+.content {
+  value: second global value;
+}
+
+.sidebar {
+  value: second global value;
+}
+*/
+$variable: first global value;
+
+.content {
+  $variable: second global value !global;
+  value: $variable;
+}
+
+.sidebar {
+  value: $variable;
+}
+
+
+/*
+Flow Control Scope
+css:
+.button {
+  background-color: #750c30;
+  border: 1px solid #f5ebfc;
+  border-radius: 3px;
+}
+*/
+$dark-theme: true !default;
+$primary-color: #f8bbd0 !default;
+$accent-color: #6a1b9a !default;
+
+@if $dark-theme {
+  $primary-color: darken($primary-color, 60%);
+  $accent-color: lighten($accent-color, 60%);
+}
+
+.button {
+  background-color: $primary-color;
+  border: 1px solid $accent-color;
+  border-radius: 3px;
+}
+
+
+/**
+map-get
+css:
+.alert {
+  background-color: #ffc107;
+}
+*/
+@use "sass:map";
+
+$theme-colors: (
+  "success": #28a745,
+  "info": #17a2b8,
+  "warning": #ffc107,
+);
+
+.alert {
+  // Instead of $theme-color-#{warning}
+  background-color: map.get($theme-colors, "warning");
+}
+
+/***************************Interpolation*********************************************/
+/*
+Interpolation can be used almost anywhere in a Sass stylesheet to embed the result of a SassScript expression into a chunk of CSS. 
+Just wrap an expression in #{} in any of the following places:
+*/

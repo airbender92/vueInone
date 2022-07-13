@@ -2,7 +2,7 @@
  * @Author: wangyunbo
  * @Date: 2022-06-28 09:38:33
  * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-12 14:15:40
+ * @LastEditTime: 2022-07-13 09:31:23
  * @FilePath: \vueInone\vue-demo\vue.config.js
  * @Description: file content
  */
@@ -65,11 +65,11 @@ module.exports = {
     plugins: [
       new PreloadWebpackPlugin({
         rel: 'preload',
-        include: 'asyncChunks'
+        // include: 'asyncChunks'
         // to ignore runtime.js
         // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
-      //   fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
-      // include: 'initial'
+        fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+       include: 'initial'
       })
     ]
   },
