@@ -1,0 +1,1 @@
+[re-render](https://medium.com/@adevnadia/react-re-renders-guide-why-react-components-re-render-a4efab132c10)
