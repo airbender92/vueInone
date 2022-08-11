@@ -1,3 +1,5 @@
 node_modules/
 dist
 vue-dev/
+.history
+/**/*/package-lock.json

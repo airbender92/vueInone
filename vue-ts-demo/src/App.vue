@@ -1,28 +1,25 @@
+<!--
+ * @Author: wangyunbo
+ * @Date: 2022-07-20 17:42:06
+ * @LastEditors: wangyunbo
+ * @LastEditTime: 2022-08-05 14:12:25
+ * @Description: file content
+-->
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view />
+    <!-- <service-worker-update-popup /> -->
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 
-export default {
+@Component({
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  }
+})
+export default class extends Vue { }
+</script>

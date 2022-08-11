@@ -1,0 +1,42 @@
+<!--
+ * @Author: wangyunbo
+ * @Date: 2022-08-01 14:35:42
+ * @LastEditors: wangyunbo
+ * @LastEditTime: 2022-08-03 14:11:56
+ * @Description: file content
+-->
+<single-spa-router>
+  <!--
+
+    This is the single-spa Layout Definition for your microfrontends.
+    See https://single-spa.js.org/docs/layout-definition/ for more information.
+
+  -->
+
+  <!-- Example layouts you might find helpful:
+
+  <nav>
+    <application name="@org/navbar"></application>
+  </nav>
+  <route path="settings">
+    <application name="@org/settings"></application>
+  </route>
+
+  -->
+
+  <main>
+    <route default>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="./poc-react">React</a>
+        </li>
+        <li>
+          <a href="/poc-vue">Vue</a>
+        </li>
+      </ul>
+    </route>
+  </main>
+</single-spa-router>

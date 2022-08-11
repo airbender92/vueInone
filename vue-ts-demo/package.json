@@ -6,20 +6,30 @@
     "serve": "concurrently \"npm:mock\" \"vue-cli-service serve\"",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "svg": "vsvg -s ./src/icons/svg -t ./src/icons/components --ext ts --es6",
     "mock": "cd mock && ts-node-dev mock-server.ts"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.9",
+    "js-cookie": "^3.0.1",
+    "normalize.css": "^8.0.1",
     "vue": "^2.7.7",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.5.1",
+    "vue-svgicon": "^3.2.9",
     "vuex": "^3.6.2",
     "vuex-module-decorators": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.18.10",
     "@types/jest": "^28.1.6",
+    "@types/js-cookie": "^3.0.2",
     "@types/node": "^18.0.6",
     "@types/webpack-env": "^1.17.0",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
@@ -46,10 +56,5 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }

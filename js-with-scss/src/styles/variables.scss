@@ -1,0 +1,9 @@
+$textColor: #333;
+$primaryColor: #0F0;
+$secondaryColor: #F0F;
+
+:export {
+  textColor: $textColor;
+  primaryColor: $primaryColor;
+  secondaryColor: $secondaryColor;
+}

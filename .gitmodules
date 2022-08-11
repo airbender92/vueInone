@@ -1,0 +1,3 @@
+[submodule "npmDemo"]
+	path = npmDemo
+	url = ./npmDemo

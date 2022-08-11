@@ -1,0 +1,1 @@
+[原文](https://medium.com/better-programming/how-to-cache-api-requests-with-redis-and-node-js-cba883385e7)

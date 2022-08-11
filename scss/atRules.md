@@ -2,7 +2,7 @@
  * @Author: wangyunbo
  * @Date: 2022-07-13 17:07:23
  * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-13 18:08:48
+ * @LastEditTime: 2022-08-04 09:16:12
  * @FilePath: \vueInone\scss\atRules.md
  * @Description: file content
 -->
@@ -241,3 +241,22 @@ The @use rule is intended to replace the old @import rule, but it’s intentiona
 - @use requires quotes around its URL, even when using the indented syntax.
 
 ## @forward
+
+The @forward rule loads a Sass stylesheet and makes its mixins, functions, and variables available when your stylesheet is loaded with the @use rule. 
+```scss
+// src/_list.scss
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// bootstrap.scss
+@forward "src/list"
+
+// styles.scss
+@use "bootstrap";
+li {
+  @include bootstrap.list-reset;
+}
+```
