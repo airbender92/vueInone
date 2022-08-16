@@ -9,4 +9,13 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router'
 
 /* Layout */
-import Layout from '@/layout/index.vue'
+// import Layout from '@/layout/index.vue'
+Vue.use(VueRouter)
+
+const createRouter = () => new VueRouter({
+  routes: []
+})
+
+const router = createRouter()
+
+export default router
