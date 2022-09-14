@@ -1,24 +1,23 @@
-/*
- * @Author: wangyunbo
- * @Date: 2022-07-13 10:22:44
- * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-13 14:03:24
- * @FilePath: \vueInone\vue-demo\src\store\modules\user.js
- * @Description: file content
- */
+
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import router, { resetRouter } from '@/router'
 
-const state = {
+import { MutationTree, ActionTree } from 'vuex';
+import { RouteRecordRaw } from 'vue-router'
+import { UserState } from './types';
+import { RootState } from '../types'
+
+const state: UserState = {
   token: getToken(),
+  id: '',
   name: '',
   avatar: '',
   introduction: '',
   roles: []
 }
 
-const mutations = {
+const mutations: MutationTree<UserState> = {
   SET_TOKEN: (state, token) => {
     state.token = token;
   },
@@ -28,6 +27,9 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name;
   },
+  SET_ID: (state, id) => {
+    state.id = id;
+  },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
@@ -36,19 +38,19 @@ const mutations = {
   }
 }
 
-const actions = {
+const actions: ActionTree<UserState, RootState> = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo;
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       login({ username: username.trim(), password: password })
-        .then(response => {
+        .then((response: any) => {
           const { data } = response
           commit('SET_TOKEN', data.token)
           setToken(data.token)
           resolve()
         })
-        .catch(error => {
+        .catch((error: any) => {
           reject(error)
         })
     })
@@ -57,14 +59,14 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo(state.token).then((response: any) => {
         const { data } = response;
 
         if (!data) {
           reject('Verification failed, please Login again')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { roles, name, avatar, introduction, id } = data
 
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array')
@@ -72,10 +74,11 @@ const actions = {
 
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
+        commit('SET_ID', id)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         resolve(data)
-      }).catch(error => {
+      }).catch((error: any) => {
         reject(error)
       })
     })
@@ -83,7 +86,7 @@ const actions = {
 
   // user logout
   logout({ commit, state, dispatch }) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
@@ -102,7 +105,7 @@ const actions = {
 
   // remove token
   resetToken({ commit }) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
@@ -121,10 +124,12 @@ const actions = {
     resetRouter()
 
     // generate accessible routes map based on roles
-    const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+    const accessRoutes: RouteRecordRaw[] = await dispatch('permission/generateRoutes', roles, { root: true })
     
     // dynamically add accessible routes
-    router.addRoutes(accessRoutes)
+    accessRoutes.forEach(route => {
+      router.addRoute(route)
+    })
 
     // reset visited views and cahced views
     dispatch('tagsView/delAllViews', null, { root: true })

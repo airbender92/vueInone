@@ -6,11 +6,15 @@
  * @FilePath: \vueInone\vue-demo\src\store\modules\errorLog.js
  * @Description: file content
  */
-const state = {
+import { MutationTree, ActionTree } from 'vuex';
+import { RootState } from '../types';
+import { ErrorLogState } from './types'
+
+const state: ErrorLogState = {
   logs: []
 }
 
-const mutations = {
+const mutations: MutationTree<ErrorLogState> = {
   ADD_ERROR_LOG: (state, log) => {
     state.logs.push(log)
   },
@@ -19,7 +23,7 @@ const mutations = {
   }
 }
 
-const actions = {
+const actions: ActionTree<ErrorLogState, RootState> = {
   addErrorLog({ commit }, log) {
     commit('ADD_ERROR_LOG', log)
   },

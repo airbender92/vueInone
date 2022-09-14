@@ -1,12 +1,16 @@
-/*
- * @Author: wangyunbo
- * @Date: 2022-07-13 09:47:57
- * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-13 09:56:52
- * @FilePath: \vueInone\vue-demo\src\store\getters.js
- * @Description: file content
- */
-const getters = {
+import { GetterTree } from 'vuex';
+import { RootState } from './types';
+import { AppState, TagsViewState, UserState, ErrorLogState} from './modules/types'
+
+interface ModuleState {
+  app: AppState,
+  tagsView: TagsViewState,
+  user: UserState,
+  errorLog: ErrorLogState,
+  permission: any
+}
+
+const getters: GetterTree<ModuleState, RootState> = {
   sidebar: state => state.app.sidebar,
   size: state => state.app.size,
   device: state => state.app.device,

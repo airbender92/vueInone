@@ -6,12 +6,12 @@
  * @FilePath: \ui\src\components\TableTransfer\config.js
  * @Description: file content
  */
-import store from "@/store_config";
+import store from "@/store";
 
 export default {
   title: "",
   // 表格ID，系统中表格唯一
-  id: store.state.userInfo.name + "-" + "tableTransfer",
+  id: store.state.user.name + "-" + "tableTransfer",
   // 数据访问路径   storage
   url: "",
   tableWidth: "100%",
@@ -38,7 +38,7 @@ export default {
     // 查询条件
     pageIndex: 1,
     pageLimit: 10,
-    userId: store.state.userInfo.id,
+    userId: store.state.user.id,
     params: {
        portName: "",
        storageId: "",

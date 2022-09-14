@@ -6,29 +6,35 @@
  * @FilePath: \vueInone\vue-demo\src\store\modules\app.js
  * @Description: file content
  */
-import Cookies from 'js-cookie'
 
-const state = {
+import { MutationTree, ActionTree} from 'vuex';
+import Cookies from 'js-cookie';
+import { AppState, Size } from './types'
+import { RootState } from '../types'
+
+const state: AppState = {
   sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+    opened: Cookies.get('sidebarStatus')
+      ? !!Cookies.get('sidebarStatus')
+      : true,
     withoutAnimation: false
   },
   device: 'desktop',
-  size: Cookies.get('size') || 'medium'
+  size: (Cookies.get('size') || 'medium') as Size
 }
 
-const mutations = {
+const mutations: MutationTree<AppState> = {
   TOOGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 1)
+      Cookies.set('sidebarStatus', '1')
     } else {
-      Cookies.set('sidebarStatus', 0)
+      Cookies.set('sidebarStatus', '0')
     }
   },
   CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', 0)
+    Cookies.set('sidebarStatus', '0')
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
@@ -41,7 +47,7 @@ const mutations = {
   }
 }
 
-const actions = {
+const actions: ActionTree<AppState, RootState> = {
   toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
   },

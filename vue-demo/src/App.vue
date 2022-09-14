@@ -1,19 +1,20 @@
-<!--
- * @Author: wangyunbo
- * @Date: 2022-06-28 09:38:33
- * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-12 09:57:15
- * @FilePath: \vueInone\vue-demo\src\App.vue
- * @Description: file content
--->
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <router-view></router-view>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script lang="ts">
+import {  Vue } from 'vue-class-component';
+
+export default class App extends Vue {}
 </script>
+
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

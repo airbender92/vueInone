@@ -6,13 +6,16 @@
  * @FilePath: \vueInone\vue-demo\src\store\modules\tagsView.js
  * @Description: file content
  */
+import { MutationTree, ActionTree } from 'vuex';
+import { RootState } from '../types'
+import { TagsViewState } from './types'
 
-const state = {
+const state: TagsViewState = {
   visitedViews: [],
   cachedViews: []
 }
 
-const mutations = {
+const mutations: MutationTree<TagsViewState> = {
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) return
     state.visitedViews.push(
@@ -75,7 +78,7 @@ const mutations = {
   }
 }
 
-const actions = {
+const actions: ActionTree<TagsViewState, RootState> = {
   addView({ dispatch }, view) {
     dispatch('addVisitedView', view)
     dispatch('addCachedView', view)
