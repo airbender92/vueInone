@@ -1,12 +1,12 @@
 <template>
-  <div ref="antvg6Ref" id="antvg6"></div>
+  <div ref="antvg6Ref" id="g6Instance"></div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import AntvG6 from './configs';
 import { getG6Data1 } from '@/api/antv'; 
-let antvg6 = null;
 const antvg6Ref = ref<HTMLElement | null>(null);
+const g6Instance = ref(null);
 const graphInstance = ref<any>(null);
 const getContainerSize = () => {
   const dom = antvg6Ref;
@@ -14,20 +14,67 @@ const getContainerSize = () => {
   return { clientWidth, clientHeight}
 }
 
+const handleAddG6Events = () => {
+  const event1 = {
+    eventName: 'node:mouseenter',
+    eventFn: (e) => {
+      // 获取鼠标进入的节点元素对象
+      const nodeItem = e.item;
+      // 设置当前节点的hover状态为true
+      graphInstance.value.setItemState(nodeItem, 'hover', true)
+    }
+  }
+  const event2 = {
+    eventName: 'node:mouseleave',
+    eventFn: (e) => {
+      const nodeItem = e.item;
+      graphInstance.value.setItemState(nodeItem, 'hover', false)
+    }
+  }
+  const event3 = {
+    eventName: 'node:click',
+    eventFn: (e) => {
+      // 先将所有当前是click状态的节点设置为非click状态
+      const clickNodes = graphInstance.value.findAllByState('node', 'click');
+      clickNodes.forEach((cn) => {
+        graphInstance.value.setItemState(cn, 'click', false);
+      });
+      const nodeItem = e.item;
+      graphInstance.value.setItemState(nodeItem, 'click', true)
+    }
+  }
+  const event4 = {
+    eventName: 'edge:click',
+    eventFn: (e) => {
+      // 先将所有当前是click状态的边置为非click状态
+      const clickEdges = graphInstance.value.findAllByState('edge', 'click');
+      clickEdges.forEach((ce) => {
+        graphInstance.value.setItemState(ce, 'click', false);
+      });
+      const edgeItem = e.item;
+      graphInstance.value.setItemState(edgeItem, 'click', true);
+    }
+  }
+  g6Instance.value.addEvents([event1, event2, event3, event4])
+}
+
 const initGraph = () => {
   const { clientWidth, clientHeight } = getContainerSize();
   const params = {
-    container: 'antvg6',
+    container: 'g6Instance',
     width: clientWidth,
     height: clientHeight
   }
-  antvg6 = new AntvG6(params);
-  graphInstance.value = antvg6.getGraph(params)
+  g6Instance.value = new AntvG6(params);
+  // 添加监听事件
+  graphInstance.value = g6Instance.value.getGraph(params)
+  handleAddG6Events();
 }
 
 const initData = async () => {
   const { data } = await getG6Data1();
-  antvg6.updateNodesStyle(data.nodes);
+  g6Instance.value.updateNodesStyle(data.nodes);
+  g6Instance.value.updateEdgesStyle(data.edges);
   graphInstance.value.data(data);
   graphInstance.value.render()
 }
@@ -38,7 +85,7 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="scss">
-#antvg6 {
+#g6Instance {
   width: 100%;
   height: 100%;
 }
