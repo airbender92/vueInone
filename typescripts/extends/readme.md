@@ -1,0 +1,1 @@
+[原文](https://www.reddit.com/r/typescript/comments/v19vuo/what_does_t_extends_object_e_extends_object_t_mean/)
