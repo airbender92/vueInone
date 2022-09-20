@@ -1,8 +1,6 @@
 import React, { Component, MouseEvent, ComponentType } from 'react';
 import { isFunction, getHocComponentName } from '../utils'
 
-const defaultProps = { props: {} as { [name: string]: any } }
-
 
 const initialState = { show: false }
 
@@ -12,9 +10,10 @@ type Props<P extends object = object> = Partial<{
   children: RenderCallback | React.ReactNode
   render: RenderCallback
   component: ComponentType<ToggleableComponentProps<any>>
-} & DefaultProps>
+} & DefaultProps<P>>
 
-type DefaultProps = typeof defaultProps;
+type DefaultProps<P extends object = object> = { props: P };
+const defaultProps: DefaultProps = { props: {} }
 
 type RenderCallback = (args: ToggleableComponentProps) => JSX.Element
 export type ToggleableComponentProps<P extends object = object> = {
@@ -23,8 +22,14 @@ export type ToggleableComponentProps<P extends object = object> = {
 } & P
 
 
-export class Toggleable extends Component<Props, State> {
+export class Toggleable<T extends object = object> extends Component<Props<T>, State> {
   readonly state: State = initialState
+
+  static ofType<T extends object>() {
+    // return Toggleable as Constructor<Toggleable<T>>
+  }
+
+  static readonly defaultProps: Props = defaultProps
 
   render() {
     const {
@@ -45,7 +50,7 @@ export class Toggleable extends Component<Props, State> {
     if (render) {
       return render(renderProps);
     }
-    return isFunction(children) ? children(renderProps) : null
+    return isFunction(children) ? (children as any)(renderProps) : null
   }
 
   private toggle =(event: MouseEvent<HTMLElement>) => this.setState(updateShowState)

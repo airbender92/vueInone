@@ -1,4 +1,12 @@
-import G6 from '@antv/g6';
+import G6 from '@antv/g6'
+import { GraphOptions } from '@antv/g6-core';
+import { IG6GraphEvent } from '@antv/g6-core/lib/types';
+
+import minimap from '../plugins/minimap';
+import imageMiniMap from '../plugins/imageMiniMap';
+import grid from '../plugins/grid';
+
+import tooltip from '../modes/tooltip';
 
 type DomAttr = {
   container: string,
@@ -7,7 +15,19 @@ type DomAttr = {
   [key: string]: any
 }
 
+type GraphEvent = {
+  eventName: string;
+  eventFn:(e: IG6GraphEvent) => void;
+}
+type GraphEventList = Array<GraphEvent>
 
+type Plugin = any;
+
+type PluginsList = Array<Plugin>
+
+const toolTipFormatter = (model: any) => {
+  return 'label: ' + model.label + '<br/> class: ' + model.class;
+}
 class AntvG6 {
 
   graph = null as any;
@@ -30,6 +50,8 @@ class AntvG6 {
         }
   }
 
+  plugins: PluginsList = []
+
   // 监听事件
   eventsList = [{
     eventName: 'node:mouseenter',
@@ -39,7 +61,12 @@ class AntvG6 {
   // 交互模式
   modes ={
       // 默认模式 允许拖拽画布，缩放画布，拖拽节点
-      default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+    default: [
+      'drag-canvas',
+      'zoom-canvas',
+      'drag-node',
+      tooltip(toolTipFormatter)
+    ],
       // 编辑模式
       edit: []
     }
@@ -62,13 +89,14 @@ class AntvG6 {
     }
   }
 
-  defaultConfig: Record<string, any> = {
+  defaultConfig: GraphOptions = {
      container: '',
     defaultNode: this.defaultNode,
     defaultEdge: this.defaultEdge,
     nodeStateStyles: this.nodeStateStyles,
     edgeStateStyles: this.edgeStateStyles,
-    modes: this.modes
+    modes: this.modes,
+    plugins: this.plugins
   }
 
   constructor(args: DomAttr) {
@@ -98,7 +126,7 @@ class AntvG6 {
   initG6(args: DomAttr) {
 
     this.updateConfig(args);
-
+    this.addPlugins([imageMiniMap, grid]);
     const graph = new G6.Graph({
       ...this.defaultConfig
     });
@@ -109,6 +137,20 @@ class AntvG6 {
 
   getGraph() {
     return this.graph
+  }
+
+  render(data: any) {
+    this.graph.data(data);
+    this.graph.render();
+    this.updateGraphImg();
+  }
+
+  updateGraphImg() {
+    const imageMiniMap = this.plugins.find(p => p.displayName === 'imageMinimap');
+    if (imageMiniMap) {
+      const dataURL = this.graph.toDataURL()
+        imageMiniMap.updateGraphImg(dataURL)
+    }
   }
 
   updateDefaultLayout<T, P extends keyof T>(model: T, prop: P, value:any):void {
@@ -123,7 +165,7 @@ class AntvG6 {
   }
 
   updateNodesStyle(nodes: any = []) {
-    nodes.forEach(node => {
+    nodes.forEach((node: any) => {
       if (!node.style) {
         node.style = {};
       }
@@ -142,7 +184,7 @@ class AntvG6 {
   }
 
   updateEdgesStyle(edges: any = []) {
-    edges.forEach(edge => {
+    edges.forEach((edge: any) => {
       if (!edge.style) {
         edge.style = {};
       }
@@ -152,16 +194,21 @@ class AntvG6 {
     });
   }
 
-  addEvents(eventsList) {
+  addEvents(eventsList: GraphEventList) {
     eventsList.forEach(eventObj => {
       const { eventName, eventFn } = eventObj;
-      this.graph.on(eventName, (e) => {
+      this.graph.on(eventName, (e: IG6GraphEvent) => {
         if (eventFn) {
           eventFn(e);
         }
       })
 
     })
+  }
+
+  addPlugins(plugins: PluginsList) {
+    this.plugins = [...plugins]
+    this.defaultConfig.plugins = this.plugins;
   }
 }
 
