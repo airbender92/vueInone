@@ -1,9 +1,10 @@
+type TooltipType = 'tooltip' | 'edge-tooltip'
 
 type FormatterFn = (model: any) => string 
 
-const tooltip = (formatter: FormatterFn) => {
+const tooltip = (type: TooltipType, formatter: FormatterFn) => {
   return {
-    type: 'tooltip',
+    type,
     formatText(model: any) {
       const text = formatter(model);
       return text

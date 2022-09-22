@@ -15,9 +15,11 @@ type DomAttr = {
   [key: string]: any
 }
 
+export type Instance = InstanceType<typeof G6.Graph>
+
 type GraphEvent = {
   eventName: string;
-  eventFn:(e: IG6GraphEvent) => void;
+  eventFn:(e: IG6GraphEvent, instance: Instance) => void;
 }
 type GraphEventList = Array<GraphEvent>
 
@@ -27,6 +29,18 @@ type PluginsList = Array<Plugin>
 
 const toolTipFormatter = (model: any) => {
   return 'label: ' + model.label + '<br/> class: ' + model.class;
+}
+
+const edgeToolTipFormatter = (model: any) => {
+  // 边提示框文本内容
+          const text =
+            'source: ' +
+            model.source +
+            '<br/> target: ' +
+            model.target +
+            '<br/> weight: ' +
+            model.weight;
+          return text;
 }
 class AntvG6 {
 
@@ -52,12 +66,6 @@ class AntvG6 {
 
   plugins: PluginsList = []
 
-  // 监听事件
-  eventsList = [{
-    eventName: 'node:mouseenter',
-    eventFn: null
-  }]
-
   // 交互模式
   modes ={
       // 默认模式 允许拖拽画布，缩放画布，拖拽节点
@@ -65,7 +73,8 @@ class AntvG6 {
       'drag-canvas',
       'zoom-canvas',
       'drag-node',
-      tooltip(toolTipFormatter)
+      // tooltip('tooltip' ,toolTipFormatter),
+      // tooltip('edge-tooltip' ,edgeToolTipFormatter),
     ],
       // 编辑模式
       edit: []
@@ -96,7 +105,8 @@ class AntvG6 {
     nodeStateStyles: this.nodeStateStyles,
     edgeStateStyles: this.edgeStateStyles,
     modes: this.modes,
-    plugins: this.plugins
+    // plugins: this.plugins,
+    // animate: true
   }
 
   constructor(args: DomAttr) {
@@ -114,7 +124,7 @@ class AntvG6 {
       this.defaultConfig = {
         ...this.defaultConfig,
         // 配置布局
-        ...this.defaultLayout
+        // ...this.defaultLayout
       }
     }
 
@@ -126,7 +136,7 @@ class AntvG6 {
   initG6(args: DomAttr) {
 
     this.updateConfig(args);
-    this.addPlugins([imageMiniMap, grid]);
+    this.addPlugins([imageMiniMap]);
     const graph = new G6.Graph({
       ...this.defaultConfig
     });
@@ -142,7 +152,7 @@ class AntvG6 {
   render(data: any) {
     this.graph.data(data);
     this.graph.render();
-    this.updateGraphImg();
+    // this.updateGraphImg();
   }
 
   updateGraphImg() {
@@ -199,7 +209,7 @@ class AntvG6 {
       const { eventName, eventFn } = eventObj;
       this.graph.on(eventName, (e: IG6GraphEvent) => {
         if (eventFn) {
-          eventFn(e);
+          eventFn(e, this.graph);
         }
       })
 
