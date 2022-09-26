@@ -11,7 +11,10 @@ import {
   ModelConfig,
   IShape,
   IGroup,
-  Item
+  Item,
+
+  ShapeOptions,
+  ShapeDefine
 } from '@antv/g6-core/lib/types'
 
 export type Instance = InstanceType<typeof G6.Graph>
@@ -29,8 +32,9 @@ export type GraphEvents = Array<GraphEvent>
 
 export type RNode = {
   nodeName: string,
-  draw(cfg: ModelConfig | undefined, group: IGroup | undefined): IShape,
+  draw?(cfg: ModelConfig | undefined, group: IGroup | undefined): IShape,
   update?(cfg: ModelConfig | undefined, node: Item):void,
+  afterDraw?(cfg: ModelConfig | undefined, group: IGroup):void,
   extendedNodeName?: string,
 }
 
@@ -39,5 +43,7 @@ export type RNodes = Array<RNode>
 export {
   GraphData,
   ModelConfig,
-  IShape
+  IShape,
+  ShapeOptions,
+  ShapeDefine
 }

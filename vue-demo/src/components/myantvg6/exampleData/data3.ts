@@ -12,6 +12,7 @@ export const data3 = {
     },
     { id: 'node2', x: 150, y: 100, type: 'diamond1', size: [50, 100] },
     { id: 'node3', x: 250, y: 100, color: 'red', type: 'diamond1' },
-    { id: 'node4', x: 350, y: 100, label: '菱形', type: 'diamond1'}
-  ]
+    { id: 'node4', x: 350, y: 100, label: '菱形', type: 'diamond1'},
+    { id: 'node5', x: 350, y: 100, label: '', type: 'inner-animate', size: [50, 50], img: '/img/earth.svg'},
+  ],
 }

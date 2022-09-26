@@ -11,6 +11,7 @@ import useEvent from './configs/useEvent';
 import { registNodes } from './customNodes';
 import { diamond1 } from './customNodes/diamond';
 import { diamond2 } from './customNodes/diamond2';
+import { innerAnimate } from './customNodes/inner-animate'
 
 import { Cfg, Instance, GraphData, GraphEvents, EventNames } from './types'
 
@@ -26,7 +27,7 @@ const containerRef = ref<HTMLDivElement | null>(null);
 let instance: Instance | null = null;
 
 // 注册自定义节点
-registNodes([diamond1, diamond2])
+registNodes([diamond1, diamond2, innerAnimate])
 
 // 实例化容器
 function initg6() {

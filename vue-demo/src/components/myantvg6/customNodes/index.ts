@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 
-import { ModelConfig, IShape, RNode, RNodes } from '../types';
+import { ShapeOptions, ShapeDefine, RNode, RNodes } from '../types';
 
 export function registNodes(nodes: RNodes) {
   (nodes || []).forEach((rnode) => {
@@ -12,10 +12,11 @@ function registNode(rnode: RNode) {
   const {
     nodeName,
     draw,
+    afterDraw,
     update,
     extendedNodeName
   } = rnode;
-  G6.registerNode(nodeName, {
+  const registerOptions: ShapeOptions | ShapeDefine = {
     options: {
       style: {},
       stateStyles: {
@@ -30,14 +31,16 @@ function registNode(rnode: RNode) {
      * @return {G.Shape} 返回一个绘制的图形作为keyShape, 通过 node.get('keyShape') 可以获取。
      */
     draw(cfg, group) {
-      return draw(cfg, group)
+      return draw?.(cfg, group);
     },
     /**
      * 绘制后的附加操作
      * @param {Object} cfg 节点的配置项
      * @param {G.Group} group 图形分组
      */
-    afterDraw(cfg, group) {},
+    afterDraw(cfg, group) {
+      return afterDraw?.(cfg, group)
+    },
     /**
      * 更新节点，包含文本
      * @param cfg
@@ -51,7 +54,7 @@ function registNode(rnode: RNode) {
      * @param cfg
      * @param node
      */
-    afterUpdate(cfg, node) {},
+    afterUpdate(cfg, node) { },
     /**
      * 响应节点的状态变化
      * 在需要使用动画来响应状态变化时需要被复写
@@ -59,14 +62,25 @@ function registNode(rnode: RNode) {
      * @param {Object} value 状态值
      * @param node
      */
-    setState(name, value, node) {},
+    setState(name, value, node) { },
     /**
      * 获取锚点 (相关边的连入点)
      * @param cfg
      * @return {Array|null} 锚点的数组
      */
     // getAnchorPoints(cfg){},
-    // 继承内置节点类型的名字
-    extendedNodeName,
-  });
+  };
+  const finalRegisterOptions: ShapeOptions | ShapeDefine = {
+    ...registerOptions
+  }
+  // 继承指定的内置节点类型,则不去复写draw方法
+  if (extendedNodeName && extendedNodeName !== 'single-node') {
+    delete finalRegisterOptions.draw
+  }
+  G6.registerNode(
+    nodeName,
+    finalRegisterOptions,
+  // 继承内置节点类型的名字
+    extendedNodeName
+  );
 }
