@@ -34,7 +34,8 @@ export type RNode = {
   nodeName: string,
   draw?(cfg: ModelConfig | undefined, group: IGroup | undefined): IShape,
   update?(cfg: ModelConfig | undefined, node: Item):void,
-  afterDraw?(cfg: ModelConfig | undefined, group: IGroup):void,
+  afterDraw?(cfg: ModelConfig | undefined, group: IGroup): void,
+  getAnchorPoints?(cfg: ModelConfig | undefined):number[][] | undefined,
   extendedNodeName?: string,
 }
 

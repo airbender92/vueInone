@@ -35,5 +35,11 @@ export const innerAnimate: RNode = {
       easing: 'easeCubic'
     })
   },
+  getAnchorPoints(cfg) {
+    return [
+        [0, 0.5], // 左侧中间
+        [1, 0.5], // 右侧中间
+      ];
+  },
   extendedNodeName: 'rect'
 }

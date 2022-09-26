@@ -14,6 +14,7 @@ function registNode(rnode: RNode) {
     draw,
     afterDraw,
     update,
+    getAnchorPoints,
     extendedNodeName
   } = rnode;
   const registerOptions: ShapeOptions | ShapeDefine = {
@@ -68,7 +69,12 @@ function registNode(rnode: RNode) {
      * @param cfg
      * @return {Array|null} 锚点的数组
      */
-    // getAnchorPoints(cfg){},
+    getAnchorPoints(cfg) {
+      if (getAnchorPoints) {
+        return getAnchorPoints(cfg)
+      }
+      return undefined
+    },
   };
   const finalRegisterOptions: ShapeOptions | ShapeDefine = {
     ...registerOptions
