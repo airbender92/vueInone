@@ -1,4 +1,3 @@
-import G6 from '@antv/g6';
 
 import { ModelConfig, IShape, RNode } from '../types'
 

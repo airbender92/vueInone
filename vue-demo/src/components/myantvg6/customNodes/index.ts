@@ -4,7 +4,11 @@ import { ShapeOptions, ShapeDefine, RNode, RNodes } from '../types';
 
 export function registNodes(nodes: RNodes) {
   (nodes || []).forEach((rnode) => {
-    registNode(rnode);
+    if (isJSXNode(rnode)) {
+      registJSXNode(rnode)
+    } else {
+      registNode(rnode);
+    }
   });
 }
 
@@ -89,4 +93,18 @@ function registNode(rnode: RNode) {
   // 继承内置节点类型的名字
     extendedNodeName
   );
+}
+
+function registJSXNode(rnode: RNode) {
+  const { nodeName, jsxFn } = rnode;
+  G6.registerNode(
+    nodeName,
+    jsxFn!
+  )
+}
+
+
+function isJSXNode(node: any) {
+  const isjsx = Object.prototype.hasOwnProperty.call(node, 'jsxFn');
+  return isjsx;
 }

@@ -1,14 +1,8 @@
 import { GetterTree } from 'vuex';
 import { RootState } from './types';
-import { AppState, TagsViewState, UserState, ErrorLogState} from './modules/types'
+import { ModuleState} from './modules/types'
 
-interface ModuleState {
-  app: AppState,
-  tagsView: TagsViewState,
-  user: UserState,
-  errorLog: ErrorLogState,
-  permission: any
-}
+
 
 const getters: GetterTree<ModuleState, RootState> = {
   sidebar: state => state.app.sidebar,

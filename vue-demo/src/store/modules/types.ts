@@ -32,3 +32,11 @@ export interface UserState {
   introduction: string,
   roles: any[]
 }
+
+export interface ModuleState {
+  app: AppState,
+  tagsView: TagsViewState,
+  user: UserState,
+  errorLog: ErrorLogState,
+  permission: any
+}

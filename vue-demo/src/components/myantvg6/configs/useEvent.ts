@@ -16,7 +16,29 @@ const defaultEvents: GraphEvents = [
       const node = evt.item!;
       instance.setItemState(node, 'hover', false)
     }
-  }
+  },
+  {
+    eventName: 'edge:click',
+    eventFn(evt, instance) {
+      const edge = evt.item!;
+      // 切换选中
+      instance.setItemState(edge, 'selected', !edge?.hasState('selected'))
+    }
+  },
+   {
+    eventName: 'edge:mouseenter',
+    eventFn(evt, instance) {
+      const edge = evt.item!;
+      instance.setItemState(edge, 'active', true)
+    }
+  },
+  {
+    eventName: 'edge:mouseleave',
+    eventFn(evt, instance) {
+      const edge = evt.item!;
+      instance.setItemState(edge, 'active', false)
+    }
+  },
 ]
 
 /**

@@ -1,14 +1,14 @@
 <template>
   <div class="g6container">
     <Antvg6
-      :data="data3"
+      :data="data5"
       :defaultCfg="defaultCfg"
      />
   </div>
 </template>
 <script lang="ts" setup>
 import Antvg6 from '@/components/myantvg6/index.vue';
-import { data3 } from '@/components/myantvg6/exampleData';
+import { data5 } from '@/components/myantvg6/exampleData';
 
 const defaultCfg = {
   nodeStateStyles: {

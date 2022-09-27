@@ -14,7 +14,10 @@ import {
   Item,
 
   ShapeOptions,
-  ShapeDefine
+  ShapeDefine,
+
+  IEdge,
+  IGroup
 } from '@antv/g6-core/lib/types'
 
 export type Instance = InstanceType<typeof G6.Graph>
@@ -37,14 +40,23 @@ export type RNode = {
   afterDraw?(cfg: ModelConfig | undefined, group: IGroup): void,
   getAnchorPoints?(cfg: ModelConfig | undefined):number[][] | undefined,
   extendedNodeName?: string,
+  jsxFn?(cfg: ModelConfig | undefined): any
 }
 
 export type RNodes = Array<RNode>
+
+export interface edgeShapeOptions extends ShapeOptions {
+  typeName: string,
+  edgeDefinition: ShapeOptions,
+  extendShapeType?: string
+}
 
 export {
   GraphData,
   ModelConfig,
   IShape,
   ShapeOptions,
-  ShapeDefine
+  ShapeDefine,
+  IEdge,
+  IGroup
 }
