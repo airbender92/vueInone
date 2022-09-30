@@ -22,7 +22,11 @@ import { midPointEdge } from './customEdges/midPointEdge';
 import { stateEdge } from './customEdges/stateEdge';
 
 import { registCombos } from './customCombos'
-import {cRect} from './customCombos/cRect'
+import { cRect } from './customCombos/cRect'
+
+import { registerBehaviors } from './customBehaviors'
+import { dragCanvasExcludeLockedNode } from './customBehaviors/dragCanvasExcludeLockedNode'
+import { activateNode } from './customBehaviors/activateNode'
 
 import { Cfg, MyG6Instance, GraphData, GraphEvents, EventNames } from './types'
 
@@ -41,6 +45,7 @@ let instance: MyG6Instance | null = null;
 registNodes([diamond1, diamond2, innerAnimate, rectXml, xmlCard]);
 registEdges([hvh, lineGrowth, midPointEdge, stateEdge]);
 registCombos([cRect])
+registerBehaviors([dragCanvasExcludeLockedNode, activateNode])
 
 // 实例化容器
 function initg6() {
@@ -83,6 +88,9 @@ function initg6() {
         img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ'
       },
       ...pDefaultCombo
+    },
+    modes: {
+      default: [dragCanvasExcludeLockedNode.type, activateNode.type]
     },
     ...restPDefaultCfg
   }

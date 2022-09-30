@@ -17,7 +17,9 @@ import {
   ShapeDefine,
 
   IEdge,
-  IGroup
+  IGroup,
+
+  BehaviorOption
 } from '@antv/g6-core/lib/types'
 
 export type Instance = InstanceType<typeof G6.Graph>
@@ -66,6 +68,11 @@ export type comboShapeOptions = {
   extendShapeType?: string
 }
 
+export interface RegisterBehaviorOption {
+  type: string
+  behavior: BehaviorOption
+}
+
 export type PositionFnName = 'toFront' | 'toBack'
 export type TargetType = 'node' | 'edge'
 
@@ -77,5 +84,6 @@ export {
   ShapeOptions,
   ShapeDefine,
   IEdge,
-  IGroup
+  IGroup,
+  BehaviorOption
 }
