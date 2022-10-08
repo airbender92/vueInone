@@ -77,6 +77,12 @@ const lifeEvents: GraphEvents = [
       // 当前操作是选中还是取消选中
       console.log(evt.select);
     }
+  },
+  {
+    eventName: 'aftercreateedge',
+    eventFn(evt, instance) {
+      console.log(evt.edge);
+    }
   }
 ]
 

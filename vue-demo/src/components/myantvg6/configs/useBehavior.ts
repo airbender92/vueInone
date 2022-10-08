@@ -57,12 +57,42 @@ const clickSelect: ModeOption = {
   }
 }
 
+const tooltip: ModeOption = {
+  type: 'tooltip',
+  formatText(model: any) {
+    return model.id
+  },
+  offset: 10,
+}
+
+const activateRelations: ModeOption = {
+  type: 'activate-relations',
+}
+
+const createEdge: ModeOption = {
+  type: 'create-edge',
+  trigger: 'click',
+  key: 'alt',
+  shouldBegin(evt) {
+    console.log(evt)
+    return true;
+  },
+  shouldEnd(evt) {
+    // 是否允许当前被操作的条件下结束创建边
+     console.log(evt)
+    return true;
+  }
+}
+
 export function useBehavior() {
   return [
     dragCombo,
     dragCanvas,
     scrollCanvas,
     dragNode,
-    clickSelect
+    clickSelect,
+    tooltip,
+    activateRelations,
+    createEdge
   ]
 }
