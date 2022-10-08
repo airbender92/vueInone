@@ -27,7 +27,6 @@ export const dragCanvasExcludeLockedNode: RegisterBehaviorOption= {
       };
     },
     updateViewport(e: IG6GraphEvent) {
-      debugger;
       const origin = this.origin;
       const clientX = +e.clientX;
       const clientY = +e.clientY;

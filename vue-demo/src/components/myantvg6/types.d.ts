@@ -9,6 +9,7 @@ import {
   CanvasEventType,
 
   ModelConfig,
+  ModeOption,
   IShape,
   IGroup,
   Item,
@@ -26,7 +27,12 @@ export type Instance = InstanceType<typeof G6.Graph>
 
 export type Cfg = GraphOptions
 
-export type EventNames = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType
+export type EventNames = NodeEventType
+  | EdgeEventType
+  | ComboEventType
+  | CanvasEventType
+  | 'click'
+  | string
 
 /// MyG6类实例
 export interface MyG6Instance extends Instance {
@@ -79,6 +85,7 @@ export type TargetType = 'node' | 'edge'
 export {
   GraphData,
   ModelConfig,
+  ModeOption,
   IShape,
   IG6GraphEvent,
   ShapeOptions,

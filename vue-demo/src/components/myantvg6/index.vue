@@ -24,6 +24,7 @@ import { stateEdge } from './customEdges/stateEdge';
 import { registCombos } from './customCombos'
 import { cRect } from './customCombos/cRect'
 
+import { useBehavior } from './configs/useBehavior'
 import { registerBehaviors } from './customBehaviors'
 import { dragCanvasExcludeLockedNode } from './customBehaviors/dragCanvasExcludeLockedNode'
 import { activateNode } from './customBehaviors/activateNode'
@@ -90,7 +91,17 @@ function initg6() {
       ...pDefaultCombo
     },
     modes: {
-      default: [dragCanvasExcludeLockedNode.type, activateNode.type]
+      default: [
+        ...useBehavior(),
+        dragCanvasExcludeLockedNode.type,
+        activateNode.type,
+      ]
+    },
+    comboStateStyles: {
+      actived: {
+        stroke: 'red',
+        lineWidth: 3,
+      }
     },
     ...restPDefaultCfg
   }

@@ -1,14 +1,14 @@
 <template>
   <div class="g6container">
     <Antvg6
-      :data="data7"
+      :data="data6"
       :defaultCfg="defaultCfg"
      />
   </div>
 </template>
 <script lang="ts" setup>
 import Antvg6 from '@/components/myantvg6/index.vue';
-import { data7 } from '@/components/myantvg6/exampleData/data7';
+import { data6 } from '@/components/myantvg6/exampleData/data6';
 
 const defaultCfg = {
   fitView: true,
@@ -17,6 +17,12 @@ const defaultCfg = {
     hover: {
       fillOpacity: 0.1,
       lineWidth: 10
+    }
+  },
+  edgeStateStyles: {
+    hover: {
+      lineWidth: 10,
+      opacity: 0.5
     }
   },
   defaultCombo: {

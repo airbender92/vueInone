@@ -1,6 +1,94 @@
-
 import { ICombo } from '@antv/g6-core';
-import { MyG6Instance, GraphEvents, EventNames } from '../types'
+import { MyG6Instance, GraphEvents, EventNames } from '../types';
+
+// 全局事件
+const globalEvents: GraphEvents = [
+  {
+    eventName: 'click',
+    eventFn(evt, instance) {
+      const shape = evt.target;
+      const item = evt.item;
+      if (item) {
+        const type = item.getType();
+        console.log('global events: ', type, item)
+      }
+    }
+  }
+];
+
+// canvas 事件
+const canvasEvents: GraphEvents = [
+  {
+    eventName: 'canvas:click',
+    eventFn(evt, instance) {
+      const shape = evt.target;
+      const item = evt.item;
+      if (item) {
+        const type = item.getType();
+        console.log('canvasEvents：', type, item)
+      }
+    }
+  },
+  {
+    eventName: 'canvas:dragstart',
+    eventFn(evt, instance) {
+      console.log('画布拖拽开始')
+    }
+  },
+  {
+   eventName: 'canvas:dragend',
+    eventFn(evt, instance) {
+      console.log('画布拖拽结束')
+    }
+  }
+]
+
+// 图形上的事件
+const shapeEvents: GraphEvents = [
+  {
+    eventName: 'hvh-path-shape:click',
+    eventFn(evt, instance) {
+      const edge = evt.item;
+      console.log('hvh-path-shape edge: ', edge)
+    }
+  }
+]
+
+// 时机事件
+const lifeEvents: GraphEvents = [
+  {
+    eventName: 'afterrender',
+    eventFn(evt, instance) {
+      instance.emit('testCustomEvent', {
+        param: 'testCustomEvent'
+      })
+      console.group('图形渲染');
+      console.log('图形渲染完成', evt, instance);
+      console.groupEnd();
+    }
+  },
+  {
+    eventName: 'nodeselectchange',
+    eventFn(evt, instance) {
+      // 当前操作的item
+      console.log(evt.target);
+      // 当前操作后，所有被选中的 items集合
+      console.log(evt.selectedItems);
+      // 当前操作是选中还是取消选中
+      console.log(evt.select);
+    }
+  }
+]
+
+// 自定义事件
+const customEvents: GraphEvents = [
+  {
+    eventName: 'testCustomEvent',
+    eventFn(evt, instance) {
+      console.log('触发自定义事件testCustomEvent', evt);
+    }
+  }
+]
 
 // 内置监听事件
 const defaultEvents: GraphEvents = [
@@ -34,6 +122,7 @@ const defaultEvents: GraphEvents = [
     eventFn(evt, instance) {
       const edge = evt.item!;
       instance.setItemState(edge, 'active', true);
+      instance.setItemState(edge, 'hover', true);
       instance.updateRelatedZLevel('edge', evt, 'mouseenter');
 
     }
@@ -43,6 +132,7 @@ const defaultEvents: GraphEvents = [
     eventFn(evt, instance) {
       const edge = evt.item!;
       instance.setItemState(edge, 'active', false);
+         instance.setItemState(edge, 'hover', false);
       instance.updateRelatedZLevel('edge', evt, 'mouseleave');
 
     }
@@ -61,7 +151,11 @@ const defaultEvents: GraphEvents = [
         }
       }
     }
-  }
+  },
+  ...shapeEvents,
+  ...lifeEvents,
+  ...customEvents,
+  ...canvasEvents
 ]
 
 /**

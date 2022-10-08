@@ -15,9 +15,10 @@ export const hvh: edgeShapeOptions = {
             ['L', endPoint.x, endPoint.y]
           ]
         },
-        name: 'path-shape'
+        name: 'hvh-path-shape'
       });
       return shape;
     }
-  }
+  },
+  extendShapeType: 'line'
 }

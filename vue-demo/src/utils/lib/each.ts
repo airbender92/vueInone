@@ -15,9 +15,8 @@ function each(elements: any[] | object, func: (v: any, k: any) => any):void {
     }
   } else if (isObject(elements)) {
     for (const k in elements) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (elements.hasOwnProperty(k)) {
-        rst = func(elements[k], k);
+      if (Object.prototype.hasOwnProperty.call(elements, k)) {
+        rst = func(elements[k as keyof typeof elements], k);
         if (rst === false) {
           break;
         }
@@ -25,3 +24,5 @@ function each(elements: any[] | object, func: (v: any, k: any) => any):void {
     }
   }
 }
+
+export default each;

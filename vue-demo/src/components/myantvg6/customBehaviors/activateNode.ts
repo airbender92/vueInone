@@ -24,7 +24,6 @@ export const activateNode:RegisterBehaviorOption = {
       }
       // 如果不允许多个‘active' 先取消其他节点的’active‘状态
       if (!this.multiple) {
-        debugger;
         this.removeNodesState();
       }
       // 置点击的节点状态 ’active‘ 为 true
