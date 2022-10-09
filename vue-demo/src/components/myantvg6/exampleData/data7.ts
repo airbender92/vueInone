@@ -17,13 +17,15 @@ export const data7 = {
       id: 'node2',
       x: 150,
       y: 150,
-      size: 20,
+      size: [20, 20],
+      type: 'circle-animate',
     },
     {
       id: 'node3',
       x: 150,
       y: 250,
       size: 20,
+      type: 'background-animate',
     },
     {
       id: 'node4',

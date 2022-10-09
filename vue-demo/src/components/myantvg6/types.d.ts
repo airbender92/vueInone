@@ -51,14 +51,14 @@ type GraphEvent = {
 export type GraphEvents = Array<GraphEvent>
 
 export type RNode = {
-  nodeName: string,
-  draw?(cfg: ModelConfig | undefined, group: IGroup | undefined): IShape,
-  update?(cfg: ModelConfig | undefined, node: Item):void,
-  afterDraw?(cfg: ModelConfig | undefined, group: IGroup): void,
-  getAnchorPoints?(cfg: ModelConfig | undefined):number[][] | undefined,
-  extendedNodeName?: string,
-  jsxFn?(cfg: ModelConfig | undefined): any
-}
+  nodeName: string;
+  draw?(cfg: ModelConfig | undefined, group: IGroup | undefined): IShape;
+  update?(cfg: ModelConfig | undefined, node: Item): void;
+  afterDraw?(cfg: ModelConfig | undefined, group: IGroup): void;
+  getAnchorPoints?(cfg: ModelConfig | undefined): number[][] | undefined;
+  extendedNodeName?: string;
+  jsxFn?(cfg: ModelConfig | undefined): any;
+} & ShapeOptions;
 
 export type RNodes = Array<RNode>
 

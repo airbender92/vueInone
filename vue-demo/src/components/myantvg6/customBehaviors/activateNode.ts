@@ -1,19 +1,20 @@
+// @ts-nocheck
 import G6, { Item } from '@antv/g6';
-import { RegisterBehaviorOption, IG6GraphEvent, MyG6Instance } from '../types'
+import { RegisterBehaviorOption, IG6GraphEvent, MyG6Instance } from '../types';
 
-export const activateNode:RegisterBehaviorOption = {
+export const activateNode: RegisterBehaviorOption = {
   type: 'activate-node',
   behavior: {
     getDefaultCfg() {
       return {
-        multiple: false
-      }
+        multiple: false,
+      };
     },
     getEvents() {
       return {
         'node:click': 'onNodeClick',
-        'canvas:click': 'onCanvasClick'
-      }
+        'canvas:click': 'onCanvasClick',
+      };
     },
     onNodeClick(e: IG6GraphEvent) {
       const graph = this.graph as MyG6Instance;
@@ -36,9 +37,9 @@ export const activateNode:RegisterBehaviorOption = {
       }
     },
     removeNodesState() {
-      this.graph.findAllByState('node', 'active').forEach(node => {
-        this.graph.setItemState(node, 'active', false)
-      })
-    }
-  }
-}
+      this.graph.findAllByState('node', 'active').forEach((node) => {
+        this.graph.setItemState(node, 'active', false);
+      });
+    },
+  },
+};

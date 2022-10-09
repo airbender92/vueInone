@@ -1,14 +1,14 @@
 <template>
   <div class="g6container">
     <Antvg6
-      :data="data6"
+      :data="data7"
       :defaultCfg="defaultCfg"
      />
   </div>
 </template>
 <script lang="ts" setup>
 import Antvg6 from '@/components/myantvg6/index.vue';
-import { data6 } from '@/components/myantvg6/exampleData/data6';
+import { data7 } from '@/components/myantvg6/exampleData/data7';
 
 const defaultCfg = {
   fitView: true,
