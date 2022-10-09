@@ -13,6 +13,7 @@ import {
   IShape,
   IGroup,
   Item,
+  INode,
 
   ShapeOptions,
   ShapeDefine,
@@ -92,5 +93,6 @@ export {
   ShapeDefine,
   IEdge,
   IGroup,
+  INode,
   BehaviorOption
 }

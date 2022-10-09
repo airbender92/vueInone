@@ -22,6 +22,9 @@ import { hvh } from './customEdges/hvh';
 import { lineGrowth } from './customEdges/lineGrowth';
 import { midPointEdge } from './customEdges/midPointEdge';
 import { stateEdge } from './customEdges/stateEdge';
+import { circleRunning } from './customEdges/circleRunning';
+import { lineDash } from './customEdges/lineDash';
+import { canRunning } from './customEdges/canRunning';
 
 import { registCombos } from './customCombos'
 import { cRect } from './customCombos/cRect'
@@ -46,7 +49,7 @@ let instance: MyG6Instance | null = null;
 
 // 注册自定义节点
 registNodes([diamond1, diamond2, innerAnimate, rectXml, xmlCard, circleAnimate, backgroundAnimate]);
-registEdges([hvh, lineGrowth, midPointEdge, stateEdge]);
+registEdges([hvh, lineGrowth, midPointEdge, stateEdge, circleRunning, lineDash, canRunning]);
 registCombos([cRect])
 registerBehaviors([dragCanvasExcludeLockedNode, activateNode])
 

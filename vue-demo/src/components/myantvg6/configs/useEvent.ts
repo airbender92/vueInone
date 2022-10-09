@@ -1,5 +1,5 @@
 import { ICombo } from '@antv/g6-core';
-import { MyG6Instance, GraphEvents, EventNames } from '../types';
+import { MyG6Instance, GraphEvents, EventNames, INode } from '../types';
 
 // 全局事件
 const globalEvents: GraphEvents = [
@@ -101,18 +101,30 @@ const defaultEvents: GraphEvents = [
   {
     eventName: 'node:mouseenter',
     eventFn(evt, instance) {
-      const node = evt.item!;
+      const node = evt.item! as INode;
       instance.setItemState(node, 'hover', true);
       instance.updateRelatedZLevel('node', evt, 'mouseenter');
+      // 获取目标节点的所有相关边
+      const edges = node.getEdges();
+      // 将所有相关边的running状态置为true, 此时会触发自定义节点的setState函数
+      edges.forEach(edge => {
+        instance.setItemState(edge, 'running', true);
+      })
+
     }
   },
   {
     eventName: 'node:mouseleave',
     eventFn(evt, instance) {
-      const node = evt.item!;
+      const node = evt.item! as INode;
       instance.setItemState(node, 'hover', false);
       instance.updateRelatedZLevel('node', evt, 'mouseleave');
-
+      // 获取目标节点的所有相关边
+      const edges = node.getEdges();
+      // 将所有相关边的running状态置为true, 此时会触发自定义节点的setState函数
+      edges.forEach((edge) => {
+        instance.setItemState(edge, 'running', false);
+      });
     }
   },
   {

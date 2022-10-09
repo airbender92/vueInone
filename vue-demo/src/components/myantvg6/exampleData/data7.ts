@@ -33,17 +33,38 @@ export const data7 = {
       y: 200,
       size: 20,
     },
+    {
+      id: 'node5',
+      x: 250,
+      y: 200,
+      size: 20,
+      type: 'can-running',
+    },
   ],
   edges: [
     {
       id: 'edge0',
       source: 'node0',
       target: 'node1',
+      type: 'circle-running',
     },
     {
       id: 'edge1',
       source: 'node2',
       target: 'node3',
+      type: 'line-dash',
+    },
+    {
+      id: 'edge2',
+      source: 'node4',
+      target: 'node5',
+      type: 'can-running',
+    },
+    {
+      id: 'edge3',
+      source: 'node0',
+      target: 'node5',
+      type: 'can-running',
     },
   ],
 };
