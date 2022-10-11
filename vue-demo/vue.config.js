@@ -83,6 +83,7 @@ module.exports = {
       .rule('svg')
       .exclude.add(resolve('src/icons'))
       .end()
+    
     config.module
       .rule('icons')
       .test(/\.svg$/)
@@ -94,6 +95,7 @@ module.exports = {
       symbolId: 'icon-[name]'
       })
       .end()
+
   },
   // transpileDependencies: true,
   css: {

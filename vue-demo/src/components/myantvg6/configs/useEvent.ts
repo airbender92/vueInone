@@ -1,6 +1,16 @@
 import { ICombo } from '@antv/g6-core';
 import { MyG6Instance, GraphEvents, EventNames, INode } from '../types';
 
+// 悬浮dom
+const floatDom = document.createElement('div');
+floatDom.id = 'test-dom';
+floatDom.style.position = 'absolute';
+floatDom.style.background = '#f00';
+floatDom.style.height = '100px';
+floatDom.style.width = '200px';
+floatDom.innerHTML = 'floating dom';
+document.body.appendChild(floatDom)
+
 // 全局事件
 const globalEvents: GraphEvents = [
   {
@@ -27,6 +37,8 @@ const canvasEvents: GraphEvents = [
         const type = item.getType();
         console.log('canvasEvents：', type, item)
       }
+      floatDom.style.left = `${evt.clientX}px`;
+      floatDom.style.top = `${evt.clientY}px`;
     }
   },
   {
@@ -82,6 +94,21 @@ const lifeEvents: GraphEvents = [
     eventName: 'aftercreateedge',
     eventFn(evt, instance) {
       console.log(evt.edge);
+    }
+  },
+  {
+    eventName: 'wheelzoom',
+    eventFn(evt, instance) {
+      evt.stopPropagation();
+      // 这里的 className 根据实际情况而定，默认是 g6-component-tooltip
+      const tooltips = Array.from(
+        document.getElementsByClassName('g6-component-tooltip')
+      );
+      tooltips.forEach((tooltip: any) => {
+        if (tooltip && tooltip.style) {
+          tooltip.style.transform = `scale(${instance.getZoom()})`;
+        }
+      });
     }
   }
 ]
@@ -199,4 +226,6 @@ export default function useEvent(instance: MyG6Instance, events?: GraphEvents, e
       eventFn(evt, instance)
     })
   })
-} 
+}
+
+

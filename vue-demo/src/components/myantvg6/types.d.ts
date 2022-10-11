@@ -7,22 +7,20 @@ import {
   EdgeEventType,
   ComboEventType,
   CanvasEventType,
-
   ModelConfig,
   ModeOption,
   IShape,
   IGroup,
   Item,
   INode,
-
   ShapeOptions,
   ShapeDefine,
-
   IEdge,
   IGroup,
-
-  BehaviorOption
-} from '@antv/g6-core/lib/types'
+  BehaviorOption,
+  MenuConfig,
+  ToolBarConfig,
+} from '@antv/g6-core/lib/types';
 
 export type Instance = InstanceType<typeof G6.Graph>
 
@@ -94,5 +92,7 @@ export {
   IEdge,
   IGroup,
   INode,
-  BehaviorOption
-}
+  BehaviorOption,
+  MenuConfig,
+  ToolBarConfig,
+};

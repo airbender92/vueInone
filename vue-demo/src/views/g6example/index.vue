@@ -1,5 +1,6 @@
 <template>
   <div class="g6container">
+  <svg-icon icon-class="right" class="right" />
     <Antvg6
       :data="data7"
       :defaultCfg="defaultCfg"
@@ -9,6 +10,7 @@
 <script lang="ts" setup>
 import Antvg6 from '@/components/myantvg6/index.vue';
 import { data7 } from '@/components/myantvg6/exampleData/data7';
+
 
 const defaultCfg = {
   fitView: true,
@@ -56,7 +58,8 @@ const defaultCfg = {
         }
       }
     }
-  }
+  },
+  plugins: ['grid', 'minimap', 'menu', 'toolbar']
 }
 
 

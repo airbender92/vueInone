@@ -6,9 +6,8 @@
  * @FilePath: \vueInone\vue-demo\src\icons\index.js
  * @Description: file content
  */
-import Vue from 'vue'
-
-const req = require.context('./svg', false, /\.svg$/)
+// https://segmentfault.com/a/1190000022893908
+const req = require.context('./svg', true, /\.svg$/)
 
 const requireAll = (requireContext: any) => requireContext.keys().map(requireContext)
 requireAll(req)

@@ -1,11 +1,4 @@
-<!--
- * @Author: wangyunbo
- * @Date: 2022-06-28 10:52:30
- * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-12 11:08:17
- * @FilePath: \vueInone\vue-demo\src\components\SvgIcon.vue
- * @Description: file content
--->
+
 <template>
   <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
   <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
@@ -34,24 +27,24 @@ export default defineComponent({
     const { className, iconClass } = toRefs(props);
 
     const isExternal = computed(() => {
-      return isExternalUtil(iconClass)
+      return isExternalUtil(iconClass.value)
     })
 
     const iconName = computed(() => {
-      return `#icon-${iconClass}`
+      return `#icon-${iconClass.value}`
     })
 
     const svgClass = computed(() => {
-      if (className) {
-        return 'svg-icon ' + className
+      if (className.value) {
+        return 'svg-icon ' + className.value
       }
       return 'svg-icon'
     })
 
     const styleExternalIcon = computed(() => {
       return {
-        mask: `url(${iconClass}) no-repeat 50% 50%`,
-        '-webkit-mask': `url(${iconClass}) no-repeat 50% 50%`,
+        mask: `url(${iconClass.value}) no-repeat 50% 50%`,
+        '-webkit-mask': `url(${iconClass.value}) no-repeat 50% 50%`,
       }
     })
 

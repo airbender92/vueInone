@@ -7,6 +7,7 @@
 import { unref, ref, onMounted, defineProps } from 'vue';
 import MyG6 from '.';
 import useEvent from './configs/useEvent';
+import usePlugin from './configs/usePlugin';
 
 import { registNodes } from './customNodes';
 import { diamond1 } from './customNodes/diamond';
@@ -62,6 +63,7 @@ function initg6() {
 
   const {
     defaultCombo: pDefaultCombo = {},
+    plugins,
     ...restPDefaultCfg
   } = props.defaultCfg as Partial<Cfg>;
 
@@ -108,6 +110,7 @@ function initg6() {
         lineWidth: 3,
       }
     },
+    plugins: usePlugin(plugins),
     ...restPDefaultCfg
   }
   instance = new MyG6(cfgOptions);
