@@ -7,14 +7,16 @@
  * @Description: file content
  */
 import { createApp } from 'vue'
-import SvgIcon from '@/components/SvgIcon.vue'
+import SvgIconPlugin from './plugins/svgIconPlugin'
 import store from './store'
 import router from './router'
 
 import App from './App.vue'
 
 const app = createApp(App);
-  app.component(SvgIcon.name, SvgIcon)
+app.use(SvgIconPlugin, {
+    imports: []
+  });
   app.use(router)
   .use(store)
   .mount('#app')
