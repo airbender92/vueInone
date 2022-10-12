@@ -7,6 +7,10 @@
  * @Description: file content
  */
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+// const WebpackIconfontPluginNodejs = require('webpack-iconfont-plugin-nodejs');
+// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const assetsDir = './src/assets/'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
@@ -70,12 +74,21 @@ module.exports = {
         // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
        include: 'initial'
-      })
+      }),
+      // new WebpackIconfontPluginNodejs({
+      //   fontName: 'my-icons',
+      //   cssPrefix: 'ico',
+      //   svgs: path.resolve( './src/icons/svg/*.svg'),
+      //   fontsOutput: path.join(assetsDir, 'fonts/'),
+      //   cssOutput: path.join(assetsDir, 'fonts/font.css'),
+      //   htmlOutput: path.join(assetsDir, 'fonts/_font-preview.html'),
+      //   jsOutput: path.join(assetsDir, 'fonts/fonts.js'),
+      //   namesOutput: path.join(assetsDir, 'fonts/names.txt')
+      // })
     ]
   },
   chainWebpack(config) {
 
-    // when there are many pages, it will cause too many meaningless requests
     // config.plugins.delete('prefetch')
 
     // set svg-sprite-loader
@@ -87,12 +100,25 @@ module.exports = {
       .options({
       symbolId: "icon-[name]"
       })
-    .end()
-
+      .end()
+    
+    // config.plugin('css')
+    //   .use(MiniCssExtractPlugin, [{
+    //     filename: '[name].css',
+    //     chunkFilename: '[id].css',
+    //   }])
+    // config.module.rule('css')
+    //   .test(/\.css$/)
+    //   .use('mini-css')
+    //   .loader(MiniCssExtractPlugin.loader)
+    //   .options({
+    //     // publicPath: 'styles',
+    //   })
+    //   .end()
+    //   .use('css-loader')
+    //   .loader('css-loader')
+    //   .options({
+    //    esModule: true,
+    //   })
   },
-  // transpileDependencies: true,
-  css: {
-    // 打包时是否抽离css样式到单独文件-> true:抽离 | false: 内联
-    extract: false
-  }
 }

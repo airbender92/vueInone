@@ -13,6 +13,8 @@ import router from './router'
 
 import App from './App.vue'
 
+//  import './assets/fonts/font.css';
+
 const app = createApp(App);
 app.use(SvgIconPlugin, {
     imports: []
