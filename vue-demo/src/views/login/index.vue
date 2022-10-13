@@ -2,7 +2,8 @@
 <template>
   <div class="login">
   login page
-  <SvgIcon name="bug" :size="24" color="red" />
+  <svg-icon name="email" :size="24" color="red" />
+  <i class="my-icons ico-bug"></i>
   </div>
 </template>
 

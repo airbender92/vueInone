@@ -1,18 +1,11 @@
-/*
- * @Author: wangyunbo
- * @Date: 2022-06-28 09:38:33
- * @LastEditors: wangyunbo
- * @LastEditTime: 2022-07-13 09:31:23
- * @FilePath: \vueInone\vue-demo\vue.config.js
- * @Description: file content
- */
+
+const { defineConfig } = require('@vue/cli-service');
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
-// const WebpackIconfontPluginNodejs = require('webpack-iconfont-plugin-nodejs');
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebpackIconfontPluginNodejs = require('webpack-iconfont-plugin-nodejs');
 
 const assetsDir = './src/assets/'
 const path = require('path')
-const defaultSettings = require('./src/settings.js')
+const defaultSettings = require('./src/settings.js');
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -29,22 +22,24 @@ const name = defaultSettings.title || 'Vue Element Admin'
 const port = process.env.port || process.env.npm_config_port || 9527
 
 
-module.exports = {
+module.exports = defineConfig({
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
    * for example Github Pages, if you plan to deploy your site to https://foo.github.io/bar/,
    * then publicPath should be set to "/bar/",
    * In most cases please use '/'
+   * 静态资源的公有前缀
    */
   publicPath: '/',
   outputDir: 'dist',
-  // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
+  // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。从生成的资源覆写 filename 或 chunkFilename 时，assetsDir 会被忽略
   assetsDir: 'static',
+  filenameHashing: true,
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    open: false,
     client: {
       logging: "info",
       // Can be used only for `errors`/`warnings`
@@ -56,6 +51,22 @@ module.exports = {
       progress: true,
     },
     // before: require('./mock/mock-server.js')
+  },
+  css: {
+    loaderOptions: {
+      css: {
+
+      },
+      postcss: {
+
+      },
+      less: {
+
+      },
+      scss: {
+        
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -75,50 +86,32 @@ module.exports = {
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
        include: 'initial'
       }),
-      // new WebpackIconfontPluginNodejs({
-      //   fontName: 'my-icons',
-      //   cssPrefix: 'ico',
-      //   svgs: path.resolve( './src/icons/svg/*.svg'),
-      //   fontsOutput: path.join(assetsDir, 'fonts/'),
-      //   cssOutput: path.join(assetsDir, 'fonts/font.css'),
-      //   htmlOutput: path.join(assetsDir, 'fonts/_font-preview.html'),
-      //   jsOutput: path.join(assetsDir, 'fonts/fonts.js'),
-      //   namesOutput: path.join(assetsDir, 'fonts/names.txt')
-      // })
+      new WebpackIconfontPluginNodejs({
+        fontName: 'my-icons',
+        cssPrefix: 'ico',
+        svgs: path.resolve( './src/icons/svg/*'),
+        fontsOutput: path.join(assetsDir, 'fonts/'),
+        cssOutput: path.join(assetsDir, 'fonts/font.css'),
+        htmlOutput: path.join(assetsDir, 'fonts/_font-preview.html'),
+        jsOutput: path.join(assetsDir, 'fonts/fonts.js'),
+        namesOutput: path.join(assetsDir, 'fonts/names.txt')
+      })
     ]
   },
   chainWebpack(config) {
-
-    // config.plugins.delete('prefetch')
-
-    // set svg-sprite-loader
-    const svgRule = config.module.rule('svg');
-    svgRule.uses.clear();
-    svgRule
+    // 让其他svg loader不对src/icons/svg进行操作
+    config.module.rule('svg').exclude.add(resolve('src/icons/svg')).end();
+    const iconRule = config.module.rule('icon');
+    iconRule.uses.clear();
+    iconRule
+      .test(/.svg$/)
+      .include.add(path.join(__dirname, 'src/icons/svg'))
+      .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
       symbolId: "icon-[name]"
       })
       .end()
-    
-    // config.plugin('css')
-    //   .use(MiniCssExtractPlugin, [{
-    //     filename: '[name].css',
-    //     chunkFilename: '[id].css',
-    //   }])
-    // config.module.rule('css')
-    //   .test(/\.css$/)
-    //   .use('mini-css')
-    //   .loader(MiniCssExtractPlugin.loader)
-    //   .options({
-    //     // publicPath: 'styles',
-    //   })
-    //   .end()
-    //   .use('css-loader')
-    //   .loader('css-loader')
-    //   .options({
-    //    esModule: true,
-    //   })
   },
-}
+})

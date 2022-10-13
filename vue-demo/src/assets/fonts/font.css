@@ -1,0 +1,67 @@
+@font-face {
+    font-family: my-icons;
+    src: url("my-icons.eot");src: url("my-icons.eot?203330fd#iefix") format("embedded-opentype"),
+             url("my-icons.woff2?203330fd") format("woff2"),
+             url("my-icons.woff?203330fd") format("woff"),
+             url("my-icons.ttf?203330fd") format("truetype"),
+             url("my-icons.svg?203330fd#my-icons") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="ico"], [class*=" ico"] {
+    font-family: 'my-icons' !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+}
+
+
+.ico-404::before {
+    content: "\554a";
+}
+
+.ico-bug::before {
+    content: "\554b";
+}
+
+.ico-chart::before {
+    content: "\554c";
+}
+
+.ico-clipboard::before {
+    content: "\554d";
+}
+
+.ico-component::before {
+    content: "\554e";
+}
+
+.ico-dashboard::before {
+    content: "\554f";
+}
+
+.ico-documentation::before {
+    content: "\5550";
+}
+
+.ico-drag::before {
+    content: "\5551";
+}
+
+.ico-edit::before {
+    content: "\5552";
+}
+
+.ico-education::before {
+    content: "\5553";
+}
+
+.ico-email::before {
+    content: "\5554";
+}
+
+.ico-example::before {
+    content: "\5555";
+}
+
