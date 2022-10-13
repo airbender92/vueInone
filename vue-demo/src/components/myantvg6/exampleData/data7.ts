@@ -1,3 +1,4 @@
+
 // 数据源
 export const data7 = {
   nodes: [
@@ -6,12 +7,22 @@ export const data7 = {
       x: 100,
       y: 100,
       size: 20,
+      style: {
+        fill: 'red'
+      },
+      text: 'bug',
+      type: 'iconfont'
     },
     {
       id: 'node1',
       x: 200,
       y: 200,
       size: 20,
+      style: {
+        fill: 'red'
+      },
+      text: 'chart',
+      type: 'iconfont'
     },
     {
       id: 'node2',

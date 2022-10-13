@@ -17,6 +17,7 @@ import { rectXml } from './customNodes/rectXml'
 import { xmlCard } from './customNodes/xmlCard'
 import { circleAnimate } from './customNodes/circleAnimate'
 import { backgroundAnimate } from './customNodes/backgroundAnimate'
+import { iconfont } from './customNodes/iconfont'
 
 import { registEdges } from './customEdges'
 import { hvh } from './customEdges/hvh';
@@ -49,7 +50,7 @@ const containerRef = ref<HTMLDivElement | null>(null);
 let instance: MyG6Instance | null = null;
 
 // 注册自定义节点
-registNodes([diamond1, diamond2, innerAnimate, rectXml, xmlCard, circleAnimate, backgroundAnimate]);
+registNodes([diamond1, diamond2, innerAnimate, rectXml, xmlCard, circleAnimate, backgroundAnimate, iconfont]);
 registEdges([hvh, lineGrowth, midPointEdge, stateEdge, circleRunning, lineDash, canRunning]);
 registCombos([cRect])
 registerBehaviors([dragCanvasExcludeLockedNode, activateNode])
